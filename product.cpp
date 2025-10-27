@@ -1,7 +1,7 @@
 #include "product.hpp"
 
 // ================================================================================= constructor
-Product::Product(string id, string name, string creator, string group, string cost)
+Product::Product(string id, string name, string creator, string category_string, string cost)
 {
     if (id != "")
     {
@@ -30,9 +30,9 @@ Product::Product(string id, string name, string creator, string group, string co
         manufacturer = "NA";
     }
 
-    if (group != "")
+    if (category_string != "")
     {
-        category = group;
+        category = category_string;
     }
     else
     {
@@ -112,11 +112,11 @@ void Product::setManufacturer(string creator)
     }
 }
 
-void Product::setCategory(string group)
+void Product::setCategory(string category_string)
 {
-    if (group != "") 
+    if (category_string != "") 
     {
-        category = group;
+        category = category_string;
     } 
     else 
     {

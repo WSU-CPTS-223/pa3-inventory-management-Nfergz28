@@ -82,10 +82,10 @@ public:
         if (size == capacity) 
         {
             // resize if needed, as much as needed for the csv file
-            int newCapcity = capacity * 2;
+            int newCapacity = capacity * 2;
 
             // create a new dynamic array with the new capacity
-            T *newItemArray = new T[newCapcity];
+            T *newItemArray = new T[newCapacity];
 
             // check if the new array was made without error
             if (newItemArray == nullptr)
@@ -103,7 +103,7 @@ public:
             // delete the old array
             delete[] this->item;
             item = newItemArray; // point to the new array
-            capacity = newCapcity; // update the capacity
+            capacity = newCapacity; // update the capacity
         }
         // if no resize needed, just insert the item
         items[size] = item;
@@ -111,14 +111,14 @@ public:
     }
 
     // find item by using the ID
-    T* find(string id)
+    T* find(string inventoryid)
     {
         // go through the items
         for (int i = 0; i < size; i++)
         {
             // check if the id matches
             // if yes then return the item
-            if (item[i].getUniqId() == id)
+            if (item[i].getUniqId() == inventoryid)
             {
                 return &item[i];
             }
@@ -130,7 +130,7 @@ public:
 
     // print out all of the items that is held in the inventory by category
     // this still works with "NA" becasue those empty ones get filled in with "NA"
-    void list_inventory(string group) const
+    void listInventory(string category_string) const
     {
         // for if any item is found
         bool found = false;
@@ -140,9 +140,9 @@ public:
         {
             // check if the category matches
             // if yes then print out the id and the name
-            if (item[i].getCategory() == group)
+            if (item[i].getCategory() == category_string)
             {
-                cout << "ID: " << item[i].getUniqId() << ", Name: " << item[i].getProductName() << endl;
+                cout << "Unique ID: " << item[i].getUniqId() << ", Product Name: " << item[i].getProductName() << endl;
                 found = true;
             }
         }
