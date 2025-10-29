@@ -75,7 +75,7 @@ void testCases::testFind()
     Inventory<Product> testInventory;
 
     // add in teh same products
-    Product one("1", "Toy Frog", "LEGO", "NA", "8.00");
+    Product one("1", "Toy Frog", "LEGO", "Toys", "8.00");
     Product two("2", "Phone", "Apple", "Electronics|Accessories", "1000.00");
     Product three("3", "Water Bottle", "YETI", "Outdoors|Hydration", "40.00");
     Product four("4", "Car", "Subaru", "Automotive", "47000.00");
@@ -125,7 +125,7 @@ void testCases::testPrint()
     Inventory<Product> testInventory;
 
     // insert the same items
-    Product one("1", "Toy Frog", "LEGO", "NA", "8.00");
+    Product one("1", "Toy Frog", "LEGO", "Toys", "8.00");
     Product two("2", "Phone", "Apple", "Electronics|Accessories", "1000.00");
     Product three("3", "Water Bottle", "YETI", "Outdoors|Hydration", "40.00");
     Product four("4", "Car", "Subaru", "Automotive", "47000.00");

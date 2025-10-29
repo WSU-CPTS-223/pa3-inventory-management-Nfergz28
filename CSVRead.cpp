@@ -25,61 +25,93 @@ void CSVRead::readCSV(const string &filename, Inventory<Product> &inventory)
     getline(infile, line);
 
     // now read each line of the csv
+    // read each line in the file
     while (getline(infile, line))
     {
-        // use stringstream to parse the line
-        stringstream ss(line);
-        string id, name, creator, category_string, cost;
+        vector<string> fields; // stores individual fields
+        string current;        // current field being read
+        bool insideQuotes = false; // tracks quoted fields
 
-        // read each one of the lines and make sure to to handle the commas
-        getline(ss, id, ',');
-        getline(ss, name, ',');
-        getline(ss, creator, ',');
-        getline(ss, category_string, ',');
-        getline(ss, cost, ',');
+        // parse the line character by character
+        for (size_t i = 0; i < line.size(); i++)
+        {
+            char c = line[i];
 
-        // make sure to handle multiple category entries which is separated by | in the csv
-        // look for the | character
+            if (c == '"')
+            {
+                // handle double quotes inside quoted string
+                if (insideQuotes && i + 1 < line.size() && line[i + 1] == '"')
+                {
+                    current += '"';
+                    i++; // skip next quote
+                }
+                else
+                {
+                    insideQuotes = !insideQuotes; // go into quote mode
+                }
+            }
+            else if (c == ',' && !insideQuotes)
+            {
+                fields.push_back(current); // end of a field
+                current.clear();
+            }
+            else
+            {
+                current += c;
+            }
+        }
+
+        fields.push_back(current); // add the last field
+
+        // skip incomplete lines
+        if (fields.size() < 8) 
+        {
+            continue;
+        }
+        // extract needed fields from CSV
+        string id = fields[0];
+        string name = fields[1];
+        string creator = fields[2];
+        string category_string = fields[4];
+        string cost = fields[7];
+
+        // helper lambda to trim leading spaces found on stack overflow
+        auto trim = [](string &s)
+        {
+            while (!s.empty() && isspace(s.front())) s.erase(s.begin());
+            while (!s.empty() && isspace(s.back())) s.pop_back();
+        };
+
+        // trim all fields
+        trim(id);
+        trim(name);
+        trim(creator);
+        trim(category_string);
+        trim(cost);
+
+        // replace empty fields with "NA"
+        if (id.empty()) id = "NA";
+        if (name.empty()) name = "NA";
+        if (creator.empty()) creator = "NA";
+        if (category_string.empty()) category_string = "NA";
+        if (cost.empty()) cost = "NA";
+
+        // keep only the first category if multiple exist
         int pos = category_string.find('|');
 
-        // -1 meaning that the | character was not found
         if (pos != -1)
         {
-            // if found then only take the first category
             category_string = category_string.substr(0, pos);
+            trim(category_string);
         }
 
-        // when the data is empty, replace is with "NA" like in the instructions
-        if (id == "")
-        {
-            id = "NA";
-        }
-
-        if (name == "")
-        {
-            name = "NA";
-        }
-
-        if (creator == "")
-        {
-            creator = "NA";
-        }
-
-        if (category_string == "")
-        {
-            category_string = "NA";
-        }
-
-        if (cost == "")
-        {
-            cost = "NA";
-        }
-
-        // make a product object for inserting into the inventory
+        // create Product object with all 5 fields
         Product newProduct(id, name, creator, category_string, cost);
+
+        // add product to inventory
         inventory.insertItem(newProduct);
     }
 
-    // close the file
+    // close file when done
     infile.close();
 }

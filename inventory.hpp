@@ -102,11 +102,11 @@ public:
 
             // delete the old array
             delete[] this->item;
-            item = newItemArray; // point to the new array
+            this->item = newItemArray; // point to the new array
             capacity = newCapacity; // update the capacity
         }
         // if no resize needed, just insert the item
-        items[size] = item;
+        this->item[size] = item;        
         size++;
     }
 
@@ -152,6 +152,31 @@ public:
         {
             cout << "!!!There are no items in this category!!!" << endl;
         }
+    }
+
+    // helper used only for testing
+    // use similar logic fromt eh listInventory but make it change the count for true or false
+    int countInventoryByCategory(string category_string) const
+    {
+        int count = 0;
+
+        for (int i = 0; i < size; i++)
+        {
+            string category = item[i].getCategory();
+            int pos = category.find('|');
+
+            if (pos != -1)
+            {
+                category = category.substr(0, pos); // only use first category found substr on stack overflow
+            }
+
+            if (category == category_string)
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
 private:

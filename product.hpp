@@ -6,6 +6,9 @@ class Product
 {
 public:
 
+    // default construcotr
+    Product() ;
+
     // constructor
     Product(string id, string name, string creator, string group, string cost);
 
@@ -25,7 +28,7 @@ public:
 
     // print out all of the info
     void printDetails() const;
-    
+
 private:
 
     // names from the csv titles that is needed

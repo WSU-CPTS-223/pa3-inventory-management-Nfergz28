@@ -1,5 +1,14 @@
 #include "product.hpp"
 
+Product::Product() 
+{
+    uniq_id = "NA";
+    product_name = "NA";
+    manufacturer = "NA";
+    category = "NA";
+    price = "NA";
+}
+
 // ================================================================================= constructor
 Product::Product(string id, string name, string creator, string category_string, string cost)
 {
